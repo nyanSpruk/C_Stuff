@@ -3,3 +3,4 @@
 *.in
 *.out
 .vscode
+.DS_Store
