@@ -66,10 +66,10 @@ test : ${name}
 	\
 	for i0 in $$(seq $$firstTest $$lastTest); do \
 		i=$$(printf %0$${testNumberLength}d $$i0); \
-		startTime=$$(date +%s.%N); \
+		startTime=$$(gdate +%s.%N); \
 		timeout -k $${hardTimeoutValue} $${timeoutValue} ./${name} < test$$i.in > test$$i.res 2> /dev/null; \
 		result=$$?; \
-		endTime=$$(date +%s.%N); \
+		endTime=$$(gdate +%s.%N); \
 		if [[ $$result == ${TIMEOUT_SIGNAL} ]]; then \
 			if [[ ${M} = 1 ]]; then \
 				echo -e "test$$i -- ${TIMEOUT_STRING}  [> $${timeoutValue} s]"; \
