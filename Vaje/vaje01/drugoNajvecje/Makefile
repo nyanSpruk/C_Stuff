@@ -82,7 +82,7 @@ test : ${name}
 			if [[ ${M} = 1 ]]; then \
 				measuredTimeString=" [$$timeDifference s]"; \
 			fi; \
-			timeout -k ${DIFF_TIMEOUT} ${DIFF_TIMEOUT} diff --ignore-trailing-space test$$i.res test$$i.out > test$$i.diff; \
+			timeout -k ${DIFF_TIMEOUT} ${DIFF_TIMEOUT} diff --ignore-all-space test$$i.res test$$i.out > test$$i.diff; \
 			result=$$?; \
 			if [[ $$result == ${TIMEOUT_SIGNAL} ]]; then \
 				cmp test$$i.res test$$i.out > test$$i.diff; \
