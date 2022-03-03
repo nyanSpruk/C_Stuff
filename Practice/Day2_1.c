@@ -16,10 +16,19 @@
 
 #include <stdio.h>
 
+/*
+    #define line defines a symbolic name or symbolic constat to bea particular string of chracters
+
+    Constants can be defines as following below. Usually all capital
+*/
+#define LOWER = 0;
+#define UPPER = 300;
+#define STEP = 20;
+
 int main()
 {
 
-    for (float fahr = 0; fahr <= 300; fahr += 20)
+    for (float fahr = LOWER; fahr <= UPPER; fahr += STEP)
     {
         float result = (5 * (fahr - 32)) / 9;
         printf("%3.0f\t%6.1f\n", fahr, result);
