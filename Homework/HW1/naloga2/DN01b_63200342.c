@@ -10,22 +10,22 @@ void izpisi(int st)
 
 int main(int argc, char const *argv[])
 {
-    bool enica = false;
+    int st = 0;
+    bool nicle = true;
+    int input;
     int counter = 0;
-    int st;
-    while ((st = getchar()) != EOF)
+    while ((input = getchar()) != '\n')
     {
-        if (st == '1' && !enica)
-        {
-            enica = true;
-            counter++;
-        }
-        else if (enica && (st == '1' || st == '0'))
+        st *= 2;
+        st += (input - '0') * 2;
+        if (st != 0)
         {
             counter++;
+            if (counter > 1 && input != '0')
+                nicle = false;
         }
     }
-    izpisi(counter);
+    nicle ? izpisi(counter - 1) : izpisi(counter);
     putchar('\n');
     return 0;
 }
