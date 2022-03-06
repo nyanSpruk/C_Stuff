@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void izpisi(long st)
+void izpisi(int st)
 {
     if (st < 0)
     {
@@ -16,9 +16,9 @@ void izpisi(long st)
 int main(int argc, char const *argv[])
 {
 
-    long c = getchar();
-    long val = 0;
-    long isNeg = 1;
+    int c = getchar();
+    int val = 0;
+    int isNeg = 1;
     if (c == '-')
         isNeg = -1;
     else
@@ -38,7 +38,7 @@ int main(int argc, char const *argv[])
     val *= isNeg;
 
     isNeg = 1;
-    long val2 = 0;
+    int val2 = 0;
     c = getchar();
     if (c == '-')
         isNeg = -1;
