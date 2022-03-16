@@ -38,14 +38,12 @@ bool isLyrchee(long stIteracij, long n)
 
 int main(int argc, char const *argv[])
 {
-    long numIteracij, a, b;
+    long numIteracij, a, b, counter = 0;
     scanf("%ld %ld %ld", &numIteracij, &a, &b);
-    long counter = 0;
     for (long i = a; i <= b; i++)
-    {
         if (!isLyrchee(numIteracij, i))
             counter++;
-    }
+
     printf("%ld\n", counter);
     return 0;
 }
