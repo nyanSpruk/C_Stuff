@@ -22,6 +22,7 @@ bool isPalindrom(long n)
         reversed = reversed * 10 + remainder;
         n /= 10;
     }
+    int j = original == reversed;
     return original == reversed;
 }
 
@@ -42,7 +43,11 @@ int main(int argc, char const *argv[])
     scanf("%ld %ld %ld", &numIteracij, &a, &b);
     for (long i = a; i <= b; i++)
         if (!isLyrchee(numIteracij, i))
+        {
+            // printf("%ld\n", i);
+
             counter++;
+        }
 
     printf("%ld\n", counter);
     return 0;
