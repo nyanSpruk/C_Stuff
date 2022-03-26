@@ -38,15 +38,15 @@ TIMEOUT_STRING=\033[1;35mtimeout\033[0;38m
 
 ${name} : ${name}.c
 	@echo "=== COMPILING: ==="
-	${CC} ${CFLAGS} -c $<
+	${CC} ${CFLAGS} -o $@ $< ${LIBS}
 
 test : ${name}
 	@echo "=== TESTING: ==="; \
-	singleTestFile=$$(ls -1 test*.out | head -1); \
+	singleTestFile=$$(ls -1 test*.in | head -1); \
 	\
-	testNumberLength=$$(( $${#singleTestFile} - 8 )); \
+	testNumberLength=$$(( $${#singleTestFile} - 7 )); \
 	cutParameter=$$((5 + testNumberLength - 1)); \
-	nTests=$$(ls -1 test*.out | cut -c5-$$cutParameter | sort | tail -1); \
+	nTests=$$(ls -1 test*.in | cut -c5-$$cutParameter | sort | tail -1); \
 	firstTest=$$(echo $$P | cut -d'-' -f1); \
 	lastTest=$$(echo $$P | cut -d'-' -f2); \
 	if [[ -z $$firstTest ]]; then \
@@ -64,17 +64,12 @@ test : ${name}
 	timeoutValue=${T}; \
 	hardTimeoutValue=$$((timeoutValue + 2)); \
 	\
-	${CC} ${CFLAGS} -c ${name}.c; \
-	\
 	for i0 in $$(seq $$firstTest $$lastTest); do \
 		i=$$(printf %0$${testNumberLength}d $$i0); \
-		${CC} ${CFLAGS} -c test$$i.c; \
-		${CC} -o test$$i test$$i.o ${name}.o ${LIBS}; \
-		rm -f test$$i.o; \
-		startTime=$$(date +%s.%N); \
-		timeout -k $${hardTimeoutValue} $${timeoutValue} ./test$$i > test$$i.res 2> /dev/null; \
+		startTime=$$(gdate +%s.%N); \
+		timeout -k $${hardTimeoutValue} $${timeoutValue} ./${name} < test$$i.in > test$$i.res 2> /dev/null; \
 		result=$$?; \
-		endTime=$$(date +%s.%N); \
+		endTime=$$(gdate +%s.%N); \
 		if [[ $$result == ${TIMEOUT_SIGNAL} ]]; then \
 			if [[ ${M} = 1 ]]; then \
 				echo -e "test$$i -- ${TIMEOUT_STRING}  [> $${timeoutValue} s]"; \
@@ -87,7 +82,7 @@ test : ${name}
 			if [[ ${M} = 1 ]]; then \
 				measuredTimeString=" [$$timeDifference s]"; \
 			fi; \
-			timeout -k ${DIFF_TIMEOUT} ${DIFF_TIMEOUT} diff --ignore-trailing-space test$$i.res test$$i.out > test$$i.diff; \
+			timeout -k ${DIFF_TIMEOUT} ${DIFF_TIMEOUT} diff --ignore-all-space test$$i.res test$$i.out > test$$i.diff; \
 			result=$$?; \
 			if [[ $$result == ${TIMEOUT_SIGNAL} ]]; then \
 				cmp test$$i.res test$$i.out > test$$i.diff; \
@@ -102,8 +97,7 @@ test : ${name}
 		fi; \
 		nConsideredTests=$$((nConsideredTests + 1)); \
 	done; \
-	rm -f ${name}.o; \
 	echo "Result: $$nPassedTests / $$nConsideredTests"
 
 clean :
-	rm -fr ${name} test?? test*.res test*.diff *.o
+	rm -fr ${name} test*.res test*.diff
