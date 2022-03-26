@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <inverz.h>
 
-int main(int argc, char const *argv[])
+long inverz(long y, long a, long b)
 {
-
-    return 0;
 }

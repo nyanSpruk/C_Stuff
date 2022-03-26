@@ -38,15 +38,15 @@ TIMEOUT_STRING=\033[1;35mtimeout\033[0;38m
 
 ${name} : ${name}.c
 	@echo "=== COMPILING: ==="
-	${CC} ${CFLAGS} -o $@ $< ${LIBS}
+	${CC} ${CFLAGS} -c $<
 
 test : ${name}
 	@echo "=== TESTING: ==="; \
-	singleTestFile=$$(ls -1 test*.in | head -1); \
+	singleTestFile=$$(ls -1 test*.out | head -1); \
 	\
-	testNumberLength=$$(( $${#singleTestFile} - 7 )); \
+	testNumberLength=$$(( $${#singleTestFile} - 8 )); \
 	cutParameter=$$((5 + testNumberLength - 1)); \
-	nTests=$$(ls -1 test*.in | cut -c5-$$cutParameter | sort | tail -1); \
+	nTests=$$(ls -1 test*.out | cut -c5-$$cutParameter | sort | tail -1); \
 	firstTest=$$(echo $$P | cut -d'-' -f1); \
 	lastTest=$$(echo $$P | cut -d'-' -f2); \
 	if [[ -z $$firstTest ]]; then \
@@ -64,10 +64,15 @@ test : ${name}
 	timeoutValue=${T}; \
 	hardTimeoutValue=$$((timeoutValue + 2)); \
 	\
+	${CC} ${CFLAGS} -c ${name}.c; \
+	\
 	for i0 in $$(seq $$firstTest $$lastTest); do \
 		i=$$(printf %0$${testNumberLength}d $$i0); \
+		${CC} ${CFLAGS} -c test$$i.c; \
+		${CC} -o test$$i test$$i.o ${name}.o ${LIBS}; \
+		rm -f test$$i.o; \
 		startTime=$$(gdate +%s.%N); \
-		timeout -k $${hardTimeoutValue} $${timeoutValue} ./${name} < test$$i.in > test$$i.res 2> /dev/null; \
+		timeout -k $${hardTimeoutValue} $${timeoutValue} ./test$$i > test$$i.res 2> /dev/null; \
 		result=$$?; \
 		endTime=$$(gdate +%s.%N); \
 		if [[ $$result == ${TIMEOUT_SIGNAL} ]]; then \
@@ -97,7 +102,8 @@ test : ${name}
 		fi; \
 		nConsideredTests=$$((nConsideredTests + 1)); \
 	done; \
+	rm -f ${name}.o; \
 	echo "Result: $$nPassedTests / $$nConsideredTests"
 
 clean :
-	rm -fr ${name} test*.res test*.diff
+	rm -fr ${name} test?? test*.res test*.diff *.o
