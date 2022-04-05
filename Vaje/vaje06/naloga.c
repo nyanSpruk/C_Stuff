@@ -53,9 +53,14 @@ char **razcleni(char *niz, char locilo, int *stOdsekov)
         }
     }
     *(tabela + counterZnakov) = kopirajDoZnaka(niz, locilo);
+
+    // OR
+    // *stOdsekov = steviloZnakov(niz, locilo) + 1;
+    // char **tabela = calloc(*stOdsekov, sizeof(char *));
     // for (int i = 0; i < *stOdsekov; i++)
     // {
-    //     *(tabela + i) = kopirajDoZnaka(niz, locilo);
+    //     tabela[i] = kopirajDoZnaka(niz, locilo);
+    //     niz += strlen(tabela[i] + 1);
     // }
 
     return tabela;
