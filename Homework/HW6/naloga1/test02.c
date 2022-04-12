@@ -4,10 +4,11 @@
 
 #include "naloga1.h"
 
-char* NIZI[] = {"123", NULL};
+char *NIZI[] = {"123", NULL};
 
-int __main__() {
-    char* niz = zdruzi(NIZI, " | ");
+int __main__()
+{
+    char *niz = zdruzi(NIZI, " | ");
     printf("<%s>\n", niz);
 
     exit(0);

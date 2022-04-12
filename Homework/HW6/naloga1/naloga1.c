@@ -8,12 +8,36 @@
 
 char *zdruzi(char **nizi, char *locilo)
 {
-    // popravite / dopolnite ...
-    return NULL;
+    char **p = nizi;
+    char *niz = malloc(0);
+    while (*p != NULL)
+    {
+        int sizeOfNiz = strlen(*p);
+        int sizeOfN = strlen(niz);
+        if (*(p + 1) == NULL)
+        {
+            niz = (char *)realloc(niz, sizeOfNiz + sizeOfN);
+            strcat(niz, *p);
+        }
+        else
+        {
+            int sizeOf = strlen(locilo);
+            niz = (char *)realloc(niz, sizeOf + sizeOfNiz + sizeOfN);
+            strcat(niz, *p);
+            strcat(niz, locilo);
+        }
+        p++;
+    }
+    return niz;
 }
+
+char *NIZI[] = {"abc", "ghi", "", NULL};
 
 int main()
 {
-    // koda za ro"cno testiranje
+    char *niz = zdruzi(NIZI, "def");
+    printf("<%s>\n", niz);
+
+    exit(0);
     return 0;
 }
