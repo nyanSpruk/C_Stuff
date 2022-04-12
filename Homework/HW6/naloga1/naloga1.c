@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -34,14 +33,7 @@ char *zdruzi(char **nizi, char *locilo)
     return niz;
 }
 
-// char *NIZI[] = {"", "", "", "", "", "", NULL};
-// char *NIZI[] = {"", "123", "4567", "8901", "2", "34", "", "567890", NULL};
-
 int main()
 {
-    // char *niz = zdruzi(NIZI, "");
-    // printf("<%s>\n", niz);
-
-    // exit(0);
     return 0;
 }
