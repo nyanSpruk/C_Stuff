@@ -37,8 +37,8 @@ void frekvenceCrk(char *niz, int **frekvence)
         if ((znak >= 'A' && znak <= 'Z') || (znak >= 'a' && znak <= 'z'))
         {
             int indeks = (znak >= 'A') ? znak - 'A' : znak - 'a';
-            // pogostosti[indeks]++;
-            *(pogostosti + indeks) += 1;
+            pogostosti[indeks]++;
+            // *(pogostosti + indeks) += 1;
         }
         p++;
     }
@@ -56,24 +56,24 @@ int main()
 
     // vsota(t, t + 9);
 
-    int *t = malloc(10 * sizeof(int));
+    // int *t = malloc(10 * sizeof(int));
 
-    int indeks = -1;
-    int *kazalec = t;
-    indeksInKazalec(t, &indeks, &kazalec);
-    printf("%d\n", indeks);
+    // int indeks = -1;
+    // int *kazalec = t;
+    // indeksInKazalec(t, &indeks, &kazalec);
+    // printf("%d\n", indeks);
 
-    indeks = -1;
-    kazalec = t + 5;
-    indeksInKazalec(t, &indeks, &kazalec);
-    printf("%d\n", indeks);
+    // indeks = -1;
+    // kazalec = t + 5;
+    // indeksInKazalec(t, &indeks, &kazalec);
+    // printf("%d\n", indeks);
 
-    indeks = -1;
-    kazalec = t + 9;
-    indeksInKazalec(t, &indeks, &kazalec);
-    printf("%d\n", indeks);
+    // indeks = -1;
+    // kazalec = t + 9;
+    // indeksInKazalec(t, &indeks, &kazalec);
+    // printf("%d\n", indeks);
 
-    free(t);
+    // free(t);
 
     exit(0);
     return 0;
