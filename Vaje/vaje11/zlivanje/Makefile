@@ -66,10 +66,10 @@ test : ${name}
 	\
 	for i0 in $$(seq $$firstTest $$lastTest); do \
 		i=$$(printf %0$${testNumberLength}d $$i0); \
-		startTime=$$(date +%s.%N); \
-		timeout -k $${hardTimeoutValue} $${timeoutValue} ./${name} < test$$i.in 2> /dev/null; \
+		startTime=$$(gdate +%s.%N); \
+		timeout -k $${hardTimeoutValue} $${timeoutValue} ./${name} < test$$i.in > test$$i.res 2> /dev/null; \
 		result=$$?; \
-		endTime=$$(date +%s.%N); \
+		endTime=$$(gdate +%s.%N); \
 		if [[ $$result == ${TIMEOUT_SIGNAL} ]]; then \
 			if [[ ${M} = 1 ]]; then \
 				echo -e "test$$i -- ${TIMEOUT_STRING}  [> $${timeoutValue} s]"; \
@@ -82,10 +82,10 @@ test : ${name}
 			if [[ ${M} = 1 ]]; then \
 				measuredTimeString=" [$$timeDifference s]"; \
 			fi; \
-			timeout -k ${DIFF_TIMEOUT} ${DIFF_TIMEOUT} diff --ignore-trailing-space rez_$$i.txt izh_$$i.txt > test$$i.diff; \
+			timeout -k ${DIFF_TIMEOUT} ${DIFF_TIMEOUT} diff --ignore-all-space test$$i.res test$$i.out > test$$i.diff; \
 			result=$$?; \
 			if [[ $$result == ${TIMEOUT_SIGNAL} ]]; then \
-				cmp rez_$$i.txt izh_$$i.txt > test$$i.diff; \
+				cmp test$$i.res test$$i.out > test$$i.diff; \
 				result=$$?; \
 			fi; \
 			if [[ $$result == 0 ]]; then \
@@ -100,4 +100,4 @@ test : ${name}
 	echo "Result: $$nPassedTests / $$nConsideredTests"
 
 clean :
-	rm -fr ${name} rez_*.txt test*.diff
+	rm -fr ${name} test*.res test*.diff
