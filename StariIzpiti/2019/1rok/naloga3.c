@@ -1,25 +1,28 @@
 #include <stdio.h>
-long counter = 0;
 
-void funkcija(long n, long gor, long dol)
+long MEMO[69][69][69];
+
+long fun(int gor, int dol, int visina)
 {
-    if (gor == dol && n == (gor + dol))
-    {
-        counter++;
-        return;
-    }
-    if (gor < n / 2)
-        funkcija(n, gor + 1, dol);
-    if (dol < gor)
-        funkcija(n, gor, dol + 1);
-    return;
+    if (visina < 0)
+        return 0;
+    if (gor == 0 || dol == 0)
+        return 1;
+    if (MEMO[gor][dol][visina] > 0)
+        return MEMO[gor][dol][visina];
+    long sum = 0;
+    sum += fun(gor - 1, dol, visina + 1);
+    sum += fun(gor, dol - 1, visina - 1);
+    MEMO[gor][dol][visina] = sum;
+    return sum;
 }
 
-int main(int argc, char const *argv[])
+int main()
 {
-    int n;
-    scanf("%d", &n);
-    funkcija(n, 0, 0);
-    printf("%ld\n", counter);
+    int st;
+    scanf("%d", &st);
+    long sum = fun(st / 2, st / 2, 0);
+    printf("%ld\n", sum);
+
     return 0;
 }
