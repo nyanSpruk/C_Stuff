@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,13 +5,13 @@
 
 int vsota(int *zac, int *kon)
 {
-    int vsota = 0;
-    while (*zac != *kon)
+    int counter = 0;
+    while (zac != kon)
     {
-        vsota += *zac;
+        counter += *zac;
         zac++;
     }
-    return vsota;
+    return counter;
 }
 
 void indeksInKazalec(int *t, int *indeks, int **kazalec)
@@ -30,50 +29,35 @@ void indeksInKazalec(int *t, int *indeks, int **kazalec)
 void frekvenceCrk(char *niz, int **frekvence)
 {
     char *p = niz;
-    int *pogostosti = calloc(26, sizeof(int));
+
+    int *frekvencaCrke = calloc(26, sizeof(int));
     while (*p != '\0')
     {
-        char znak = *p;
-        if ((znak >= 'A' && znak <= 'Z') || (znak >= 'a' && znak <= 'z'))
+        char c = *p;
+        if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
         {
-            int indeks = (znak >= 'A') ? znak - 'A' : znak - 'a';
-            pogostosti[indeks]++;
-            // *(pogostosti + indeks) += 1;
+            int indeks = (c <= 'Z') ? c - 'A' : c - 'a';
+            frekvencaCrke[indeks]++;
         }
         p++;
     }
-    *frekvence = pogostosti;
+    *frekvence = frekvencaCrke;
 }
 
 int main()
 {
-    // koda za ro"cno testiranje (po "zelji)
-    // int *t = malloc(10 * sizeof(int));
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     *(t + i) = i + 1;
-    // }
 
-    // vsota(t, t + 9);
+    int *frekvence;
+    frekvenceCrk("baNanA", &frekvence);
+    for (int c = 'A'; c <= 'Z'; c++)
+    {
+        if (frekvence[c - 'A'] > 0)
+        {
+            printf("%c -> %d\n", c, frekvence[c - 'A']);
+        }
+    }
 
-    // int *t = malloc(10 * sizeof(int));
-
-    // int indeks = -1;
-    // int *kazalec = t;
-    // indeksInKazalec(t, &indeks, &kazalec);
-    // printf("%d\n", indeks);
-
-    // indeks = -1;
-    // kazalec = t + 5;
-    // indeksInKazalec(t, &indeks, &kazalec);
-    // printf("%d\n", indeks);
-
-    // indeks = -1;
-    // kazalec = t + 9;
-    // indeksInKazalec(t, &indeks, &kazalec);
-    // printf("%d\n", indeks);
-
-    // free(t);
+    free(frekvence);
 
     exit(0);
     return 0;
