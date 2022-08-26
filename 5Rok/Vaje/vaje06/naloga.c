@@ -9,76 +9,80 @@
 int steviloZnakov(char *niz, char znak)
 {
     int counter = 0;
-    for (char *p = niz; *p != '\0'; p++)
+    char *p = niz;
+    while (*p != '\0')
+    {
         if (*p == znak)
             counter++;
+        p++;
+    }
     return counter;
 }
 
-int dolzinaDoZnaka(char *niz, char znak)
+int doZnaka(char *niz, char znak)
 {
     int counter = 0;
-    for (char *p = niz; *p != znak && *p != '\0'; p++)
+    char *p = niz;
+    while (*p != znak)
+    {
         counter++;
+        p++;
+    }
     return counter;
 }
 
 char *kopirajDoZnaka(char *niz, char znak)
 {
-    int velikostArr = dolzinaDoZnaka(niz, znak);
-    char *newArr = calloc(velikostArr + 1, sizeof(char));
-    char *p = niz;
-    for (int i = 0; i < velikostArr; i++, p++)
-    {
-        *(newArr + i) = *p;
-    }
-    newArr[velikostArr] = '\0';
-    return newArr;
+    int dolzinaDoZnaka = doZnaka(niz, znak);
+    char *novString = calloc(dolzinaDoZnaka + 1, sizeof(char));
+    for (int i = 0; i < dolzinaDoZnaka; i++)
+        novString[i] = niz[i];
+
+    return novString;
 }
 
-char **razcleni(char *niz, char locilo, int *stOdsekov)
+int stZnakov(char *niz, char locilo)
 {
-    *stOdsekov = steviloZnakov(niz, locilo) + 1;
-    char **tabela = calloc(*stOdsekov, sizeof(char *));
-    int counterZnakov = 0;
-    for (char *p = niz; *p != '\0'; p++)
+    int counter = 0;
+    char *p = niz;
+    while (*p != '\0')
     {
         if (*p == locilo)
-        {
-            int dolzinaOdseka = dolzinaDoZnaka(niz, locilo) + 1;
-            char *temp = kopirajDoZnaka(niz, locilo);
-            *(tabela + counterZnakov) = temp;
-            niz += dolzinaOdseka;
-            counterZnakov++;
-        }
+            counter++;
+        p++;
     }
-    *(tabela + counterZnakov) = kopirajDoZnaka(niz, locilo);
-
-    // OR
-    // *stOdsekov = steviloZnakov(niz, locilo) + 1;
-    // char **tabela = calloc(*stOdsekov, sizeof(char *));
-    // for (int i = 0; i < *stOdsekov; i++)
-    // {
-    //     tabela[i] = kopirajDoZnaka(niz, locilo);
-    //     niz += strlen(tabela[i] + 1);
-    // }
-
-    return tabela;
+    return counter;
+}
+char **razcleni(char *niz, char locilo, int *stOdsekov)
+{
+    *stOdsekov = stZnakov(niz, locilo) + 1;
+    char **odseki = malloc(*stOdsekov * sizeof(char *));
+    for (int i = 0; i < *stOdsekov; i++)
+    {
+        int dolzinaDoZnaka = doZnaka(niz, locilo);
+        char *odsek = kopirajDoZnaka(niz, locilo);
+        for (int j = 0; j < dolzinaDoZnaka + 1; j++)
+            niz++;
+        odseki[i] = odsek;
+    }
+    return odseki;
 }
 
-// void pozeni(char *niz, char znak)
+// void pozeni(char *niz, char locilo)
 // {
-//     char *kopija = kopirajDoZnaka(niz, znak);
-//     printf("<%s>\n", kopija);
-//     free(kopija);
+//     int stOdsekov = 0;
+//     char **odseki = razcleni(niz, locilo, &stOdsekov);
+//     for (int i = 0; i < stOdsekov; i++)
+//     {
+//         printf("%d: <%s>\n", i + 1, odseki[i]);
+//         free(odseki[i]);
+//     }
+//     free(odseki);
 // }
 
 int main()
 {
-    // koda za ro"cno testiranje (po "zelji)
-    // char *niz = "";
-
+    // char *niz = "prijazen niz z enim samim presledkom med besedami";
     // pozeni(niz, ' ');
-    // pozeni(niz, '_');
     return 0;
 }
