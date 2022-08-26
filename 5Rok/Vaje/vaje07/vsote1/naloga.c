@@ -1,6 +1,8 @@
 #include <stdio.h>
 
-long fun(n, k)
+int counter = 0;
+
+long funkcija(int n, int k)
 {
     if (k == 0)
         return 0;
@@ -9,15 +11,14 @@ long fun(n, k)
     if (k > n)
         k = n;
 
-    return fun(n - k, k) + fun(n, k - 1);
+    return funkcija(n - k, k) + funkcija(n, k - 1);
 }
 
 int main(int argc, char const *argv[])
 {
     int n, k;
     scanf("%d %d", &n, &k);
-    long vsota = 0;
-    vsota = fun(n, k);
-    printf("%ld\n", vsota);
+    int result = funkcija(n, k);
+    printf("%d\n", result);
     return 0;
 }
