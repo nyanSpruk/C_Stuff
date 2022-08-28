@@ -9,8 +9,8 @@
 
 int vsotaI(Vozlisce *zacetek)
 {
-    Vozlisce *v = zacetek;
     int vsota = 0;
+    Vozlisce *v = zacetek;
     while (v != NULL)
     {
         vsota += v->podatek;
@@ -29,30 +29,30 @@ int vsotaR(Vozlisce *zacetek)
 Vozlisce *vstaviUrejenoI(Vozlisce *zacetek, int element)
 {
     Vozlisce *v = zacetek;
-    Vozlisce *novo = malloc(sizeof(Vozlisce));
-    novo->podatek = element;
+    Vozlisce *zaDodat = (Vozlisce *)malloc(1 * sizeof(Vozlisce));
+    zaDodat->podatek = element;
     if (v == NULL || element <= v->podatek)
     {
-        novo->naslednje = zacetek;
-        return novo;
+        zaDodat->naslednje = zacetek;
+        return zaDodat;
     }
 
-    v = v->naslednje;
     Vozlisce *prev = zacetek;
+    v = v->naslednje;
     while (v != NULL)
     {
         if (element <= v->podatek)
         {
-            novo->naslednje = v;
-            prev->naslednje = novo;
+            zaDodat->naslednje = v;
+            prev->naslednje = zaDodat;
             return zacetek;
         }
         prev = v;
         v = v->naslednje;
     }
 
-    novo->naslednje = NULL;
-    prev->naslednje = novo;
+    zaDodat->naslednje = NULL;
+    prev->naslednje = zaDodat;
 
     return zacetek;
 }
@@ -61,10 +61,10 @@ Vozlisce *vstaviUrejenoR(Vozlisce *zacetek, int element)
 {
     if (zacetek == NULL || element <= zacetek->podatek)
     {
-        Vozlisce *novo = malloc(sizeof(Vozlisce));
-        novo->podatek = element;
-        novo->naslednje = zacetek;
-        return novo;
+        Vozlisce *zaDodat = (Vozlisce *)malloc(1 * sizeof(Vozlisce));
+        zaDodat->naslednje = zacetek;
+        zaDodat->podatek = element;
+        return zaDodat;
     }
     zacetek->naslednje = vstaviUrejenoR(zacetek->naslednje, element);
     return zacetek;
@@ -134,8 +134,9 @@ Vozlisce *vstaviUrejenoR(Vozlisce *zacetek, int element)
 
 int main()
 {
-    // testiraj(zgradi((int[]){6, 10, 15, INT_MAX}), 8);
-    // testiraj(zgradi((int[]){6, 10, 15, INT_MAX}), 12);
+    // testiraj(zgradi((int[]){6, 10, 15, INT_MAX}), 7);
+    // testiraj(zgradi((int[]){6, 10, 15, INT_MAX}), 4);
+    // testiraj(zgradi((int[]){INT_MAX}), 12);
 
     // testiraj(zgradi((int[]){5, 13, 20, 34, 48, 60, INT_MAX}), 8);
     // testiraj(zgradi((int[]){5, 13, 20, 34, 48, 60, INT_MAX}), 13);
