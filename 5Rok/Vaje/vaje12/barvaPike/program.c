@@ -7,24 +7,25 @@ int main(int argc, char *argv[])
     int vrstica = atoi(argv[2]);
     int stolpec = atoi(argv[3]);
 
-    char *temp = malloc(sizeof(char) * 10);
-    fgets(temp, 10, vhod);
+    char *rand = malloc(10 * sizeof(char));
 
-    int visina, sirina;
+    fgets(rand, 10, vhod);
+
+    int sirina, visina;
     fscanf(vhod, "%d %d", &sirina, &visina);
     fgetc(vhod);
 
-    fgets(temp, 10, vhod);
-    free(temp);
+    fgets(rand, 10, vhod);
 
-    unsigned char *pike = malloc(3 * sirina * visina * sizeof(unsigned char));
-    fread(pike, sizeof(unsigned char), 3 * visina * sirina, vhod);
+    free(rand);
+
+    unsigned char *barve = malloc(sirina * visina * 3 * sizeof(unsigned char));
+    fread(barve, sizeof(unsigned char), 3 * sirina * visina, vhod);
+    int index = (sirina * vrstica + stolpec) * 3;
+    printf("%d %d %d\n", barve[index], barve[index + 1], barve[index + 2]);
+
+    free(barve);
     fclose(vhod);
 
-    // izluscimo barvne komponente pike na podanih koordinatah
-    int indByta = (vrstica * sirina + stolpec) * 3;
-    printf("%d %d %d\n", pike[indByta], pike[indByta + 1], pike[indByta + 2]);
-
-    fclose(vhod);
     return 0;
 }
