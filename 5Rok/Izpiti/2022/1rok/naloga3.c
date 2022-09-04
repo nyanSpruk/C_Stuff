@@ -24,19 +24,19 @@ bool isValid(char *niz)
     return malaCrka && velikaCrka && stevilka;
 }
 
-void fun(char *znaki, int maxDolzina, int counter, char *beseda, int stZnakov)
+void fun(char *crke, int maxDolzina, int dolzina, char *izpis, int stCrk)
 {
-    if (counter == maxDolzina)
+    if (dolzina == maxDolzina)
     {
-        if (isValid(beseda))
-            printf("%s\n", beseda);
+        if (isValid(izpis))
+            printf("%s\n", izpis);
         return;
     }
-    for (int i = 0; i < stZnakov; i++)
+    for (int i = 0; i < stCrk; i++)
     {
-        beseda[counter] = znaki[i];
-        fun(znaki, maxDolzina, counter + 1, beseda, stZnakov);
-        beseda[counter] = ' ';
+        izpis[dolzina] = crke[i];
+        fun(crke, maxDolzina, dolzina + 1, izpis, stCrk);
+        izpis[dolzina] = ' ';
     }
 }
 
@@ -44,10 +44,10 @@ int main(int argc, char const *argv[])
 {
     int d, n;
     scanf("%d", &d);
-    char *znaki = malloc(d * sizeof(char));
-    scanf("%s", znaki);
+    char *crke = malloc(d * sizeof(char));
+    scanf("%s", crke);
     scanf("%d", &n);
-    char *beseda = malloc(n * sizeof(char));
-    fun(znaki, n, 0, beseda, d);
+    char *izpis = malloc(n * sizeof(char));
+    fun(crke, n, 0, izpis, d);
     return 0;
 }
