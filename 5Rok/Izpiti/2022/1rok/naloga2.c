@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdbool.h>
 
-typedef struct _Vozlisce
-{
-    int *vTabelo;                // kazalec na nek element tabele t
-    struct _Vozlisce *naslednje; // kazalec na naslednje vozlišče seznama
-} Vozlisce;
+// typedef struct _Vozlisce
+// {
+//     int *vTabelo;                // kazalec na nek element tabele t
+//     struct _Vozlisce *naslednje; // kazalec na naslednje vozlišče seznama
+// } Vozlisce;
+
+#include "naloga2.h"
 
 Vozlisce **tabelaSeznamov(int *t, int d, int n)
 {
@@ -15,50 +18,91 @@ Vozlisce **tabelaSeznamov(int *t, int d, int n)
     {
         int stVozlisc = d / pow(2, i);
         Vozlisce *inner = (Vozlisce *)malloc(stVozlisc * sizeof(Vozlisce));
+
+        Vozlisce *new = malloc(sizeof(Vozlisce));
+        new->vTabelo = &(t[(int)pow(2, i) - 1]);
+        new->naslednje = NULL;
+        inner = new;
         Vozlisce *temp = inner;
-        for (int j = 0; j < d; j++)
+
+        for (int j = pow(2, i); j < d; j++)
         {
             if ((j + 1) % (int)pow(2, i) == 0)
             {
-                temp->naslednje = malloc(sizeof(Vozlisce));
-                temp->vTabelo = &(t[j]);
+                Vozlisce *new = malloc(sizeof(Vozlisce));
+                new->vTabelo = &(t[j]);
+                new->naslednje = NULL;
+                temp->naslednje = new;
                 temp = temp->naslednje;
-                printf("%d ", j);
+                // printf("%d ", j);
             }
         }
         result[i] = inner;
-        printf("\n");
+        // printf("\n");
     }
 
     return result;
 }
 
-int main(int argc, char const *argv[])
-{
-    int d = 10;
-    int n = 4;
-    int *t;
-    t = malloc(d * sizeof(int));
-    for (int i = 0; i < d; i++)
-    {
-        t[i] = i;
-    }
+// void izpisi(Vozlisce *p)
+// {
+//     printf("[");
+//     bool prvic = true;
+//     while (p != NULL)
+//     {
+//         if (!prvic)
+//         {
+//             printf(", ");
+//         }
+//         prvic = false;
+//         printf("%d", *(p->vTabelo));
+//         p = p->naslednje;
+//     }
+//     printf("]\n");
+// }
 
-    Vozlisce **result = tabelaSeznamov(t, d, n);
-    for (int i = 0; i < n; i++)
-    {
-        Vozlisce *v = result[i];
-        while (v->naslednje != NULL)
-        {
-            int val = *(v->vTabelo);
-            if (v->naslednje->naslednje == NULL)
-                printf("%d", val);
-            else
-                printf("%d->", val);
-            v = v->naslednje;
-        }
-        printf("\n");
-    }
+// void pocisti(Vozlisce *p)
+// {
+//     while (p != NULL)
+//     {
+//         Vozlisce *q = p->naslednje;
+//         free(p);
+//         p = q;
+//     }
+// }
+
+int main()
+{
+    // FILE *f = fopen("test24.dat", "r");
+
+    // int d = 0;
+    // fscanf(f, "%d", &d);
+
+    // int *t = malloc(d * sizeof(int));
+    // for (int i = 0; i < d; i++)
+    // {
+    //     fscanf(f, "%d", &t[i]);
+    // }
+
+    // int n = 0;
+    // fscanf(f, "%d", &n);
+
+    // fclose(f);
+
+    // Vozlisce **tabSez = tabelaSeznamov(t, d, n);
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     izpisi(tabSez[i]);
+    // }
+
+    // for (int i = 0; i < n; i++)
+    // {
+    //     pocisti(tabSez[i]);
+    // }
+
+    // free(tabSez);
+    // free(t);
 
     return 0;
 }
